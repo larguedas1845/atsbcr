@@ -1,56 +1,55 @@
 
 package DAO;
 
+import static java.lang.Class.forName;
 import java.sql.Connection;
-import java.sql.DriverManager;
+import static java.sql.DriverManager.getConnection;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import static java.util.logging.Level.SEVERE;
+import static java.util.logging.Logger.getLogger;
 
 public class conexion {
-    private Connection conn;
+    
+    private Connection con;
+
+    public conexion() {
+        this.con = null;
+    }
     
     public boolean conectarse(){
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306/inventario?useSSL=false&serverTimezone=UTC";
-            String usuario ="root";
-            String password= "root";
-            try {
-                this.conn= (Connection)DriverManager.getConnection(url, usuario, password);
-                return true;
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-                return false;
-            }
-            
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
+            forName("com.mysql.cj.jdbc.Driver");
+            String servidor = "jdbc:mysql://localhost:3306/inventario?useSSL=false&serverTimezone=UTC";
+            String usuario = "root";
+            String password = "root";
+            this.con = (Connection) 
+                    getConnection(servidor, usuario, password);
+            return true;
+        } catch (ClassNotFoundException | SQLException ex) {
             return false;
         }
-        
     }
     
     public boolean desconectarse(){
-        try{
-            this.conn.close();
+        try {
+            this.con.close();
             return true;
-            
-        }catch (SQLException sqle){
-            
+        } catch (SQLException ex) {
+            getLogger(conexion.class.getName()).log(SEVERE, null, ex);
             return false;
         }
     }
+
+    public Connection getCon() {
+        return con;
+    }
+
+    public void setCon(Connection con) {
+        this.con = con;
+    }
     
-
-    public Connection getConn() {
-        return conn;
-    }
-
-    public void setConn(Connection conn) {
-        this.conn = conn;
-    }
+    
+    
     
     
 }

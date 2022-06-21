@@ -14,18 +14,25 @@ public class LogeeDAO {
     private PreparedStatement sentencia;
     private conexion con;
     private ClassLogin usuario;
+    private String exa;
     String pass;
     String use;
     String nom;
     Integer rol;
     Integer Depa;
-   private String exa;
+   
+   
+    
+   public LogeeDAO(){
+       con = new conexion();
+       usuario = new ClassLogin();
+   }
 
     public int logeo(ClassLogin log) {
         
         try {
-            if (this.con.conectarse()) {
-                sentencia = con.getConn().prepareStatement("select * from inventario.users where idusers = ?");
+            if (this.con.conectarse()){
+                sentencia = con.getCon().prepareStatement("select * from inventario.users where idusers = ?");
                 sentencia.setString(1, log.getUser());
                 ResultSet datos = sentencia.executeQuery();
 
@@ -39,6 +46,7 @@ public class LogeeDAO {
                 this.con.desconectarse();
                 if (pass != null) {
                     if (pass.equals(log.getPass())) {
+                        ClassLogin usuario = new ClassLogin();
                         this.usuario.setUser(use);
                         this.usuario.setPass(pass);
                         this.usuario.setDepa(Depa);
