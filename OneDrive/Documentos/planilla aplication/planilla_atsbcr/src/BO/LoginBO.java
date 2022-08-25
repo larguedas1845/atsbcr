@@ -16,7 +16,7 @@ public class LoginBO {
     }
 
     public int datosusuaio(ClassLogin log) {
-        return this.logeodao.logeo(log);
+        return this.logeodao.logeo01(log);
     }
     
 }

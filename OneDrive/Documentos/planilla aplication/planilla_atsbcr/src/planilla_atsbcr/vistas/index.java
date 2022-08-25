@@ -1,24 +1,22 @@
-
 package planilla_atsbcr.vistas;
 
 import BO.LoginBO;
 import DAO.LogeeDAO;
 import clases.ClassLogin;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
-
 public class index extends javax.swing.JFrame {
+
     private LoginBO login;
     private LogeeDAO logeodao;
 
-    
     public index() {
-        login=new LoginBO();
+        login = new LoginBO();
         logeodao = new LogeeDAO();
         initComponents();
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -37,7 +35,7 @@ public class index extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema de Planillas");
 
-        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
@@ -59,6 +57,11 @@ public class index extends javax.swing.JFrame {
         txtUsuario.setForeground(new java.awt.Color(0, 0, 0));
 
         PassClave.setForeground(new java.awt.Color(0, 0, 0));
+        PassClave.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                PassClaveKeyReleased(evt);
+            }
+        });
 
         ButSalir.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         ButSalir.setForeground(new java.awt.Color(51, 51, 51));
@@ -75,6 +78,11 @@ public class index extends javax.swing.JFrame {
         ButIngreso.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ButIngresoMouseClicked(evt);
+            }
+        });
+        ButIngreso.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                ButIngresoKeyReleased(evt);
             }
         });
 
@@ -152,12 +160,13 @@ public class index extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void ButSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ButSalirMouseClicked
         // TODO add your handling code here:
         int opc = JOptionPane.showConfirmDialog(null, "Desea salir de la aplicación ?");
-        if(opc == JOptionPane.OK_OPTION){
+        if (opc == JOptionPane.OK_OPTION) {
             this.dispose();
         }
     }//GEN-LAST:event_ButSalirMouseClicked
@@ -168,9 +177,9 @@ public class index extends javax.swing.JFrame {
             ClassLogin claslogin = new ClassLogin();
             claslogin.setUser(this.txtUsuario.getText());
             claslogin.setPass(this.PassClave.getText());
-            
+
             int log = this.login.datosusuaio(claslogin);
-            switch (log){
+            switch (log) {
                 case 0:
                     /*todo bien*/
                     MainMenu menu = new MainMenu();
@@ -195,23 +204,75 @@ public class index extends javax.swing.JFrame {
                     break;
             }
         }
-        
+
     }//GEN-LAST:event_ButIngresoMouseClicked
 
-    private boolean validardatos(){
+    private void ButIngresoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ButIngresoKeyReleased
+        // TODO add your handling code here:
+        char enter=evt.getKeyChar();
+       if(enter==KeyEvent.VK_ENTER){
+           Ingreso();;
+       }
+    }//GEN-LAST:event_ButIngresoKeyReleased
+
+    private void PassClaveKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PassClaveKeyReleased
+        // TODO add your handling code here:
+       char enter=evt.getKeyChar();
+       if(enter==KeyEvent.VK_ENTER){
+           Ingreso();;
+       }
+    }//GEN-LAST:event_PassClaveKeyReleased
+
+    private boolean validardatos() {
         boolean ok = true;
-        if (this.txtUsuario.getText().trim().length()==0) {
+        if (this.txtUsuario.getText().trim().length() == 0) {
             JOptionPane.showMessageDialog(null, "El nombre de Usuario es requerido.");
-            ok= false;
-            
+            ok = false;
+
         }
-        if(this.PassClave.getText().trim().length()== 0){
+        if (this.PassClave.getText().trim().length() == 0) {
             JOptionPane.showMessageDialog(null, "Clave Requerida.");
-            ok=false;
+            ok = false;
         }
         return ok;
     }
-    
+
+    public void Ingreso() {
+
+        if (validardatos()) {
+            ClassLogin claslogin = new ClassLogin();
+            claslogin.setUser(this.txtUsuario.getText());
+            claslogin.setPass(this.PassClave.getText());
+
+            int log = this.login.datosusuaio(claslogin);
+            switch (log) {
+                case 0:
+                    /*todo bien*/
+                    MainMenu menu = new MainMenu();
+                    menu.setVisible(true);
+                    this.setVisible(false);
+                    break;
+                case 1:
+                    /*sql exeption*/
+                    JOptionPane.showMessageDialog(null, logeodao.getExa());
+                    break;
+                case 2:
+                    /*no se conecto a bd*/
+                    JOptionPane.showMessageDialog(null, "No se a podido conectar a la Base de datos");
+                    break;
+                case 3:
+                    /*clave incorrecta*/
+                    JOptionPane.showMessageDialog(null, "Usuario Incorrecto");
+                    break;
+                case 4:
+                    /*clave null*/
+                    JOptionPane.showMessageDialog(null, "Calve en null");
+                    break;
+            }
+        }
+
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

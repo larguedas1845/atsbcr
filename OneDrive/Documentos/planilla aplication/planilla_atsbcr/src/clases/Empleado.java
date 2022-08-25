@@ -19,7 +19,15 @@ public class Empleado {
     private Integer roll;
     private Integer tipoPlanilla;
     private Date fechaIngreso;
-
+    private Date fechaNacimiento;
+    private String Email;
+    private String phone;
+    private String address;
+    private Integer nacional;
+    private Integer sexo;
+    private Integer estadoCivil;
+    private String Puesto;
+    
     public String getNombre() {
         return nombre;
     }
@@ -74,6 +82,70 @@ public class Empleado {
 
     public void setFechaIngreso(Date fechaIngreso) {
         this.fechaIngreso = fechaIngreso;
+    }
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String Email) {
+        this.Email = Email;
+    }
+
+    public Date getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Integer getNacional() {
+        return nacional;
+    }
+
+    public void setNacional(Integer nacional) {
+        this.nacional = nacional;
+    }
+
+    public Integer getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(Integer sexo) {
+        this.sexo = sexo;
+    }
+
+    public Integer getEstadoCivil() {
+        return estadoCivil;
+    }
+
+    public void setEstadoCivil(Integer estadoCivil) {
+        this.estadoCivil = estadoCivil;
+    }
+
+    public String getPuesto() {
+        return Puesto;
+    }
+
+    public void setPuesto(String Puesto) {
+        this.Puesto = Puesto;
     }
     
     

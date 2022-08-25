@@ -31,8 +31,8 @@ public class LogeeDAO {
     public int logeo(ClassLogin log) {
         
         try {
-            if (this.con.conectarse()){
-                sentencia = con.getCon().prepareStatement("select * from inventario.users where idusers = ?");
+            if (this.con.conectarse(log)){
+               sentencia = con.getCon().prepareStatement("select * from inventario.users where idusers = ?");
                 sentencia.setString(1, log.getUser());
                 ResultSet datos = sentencia.executeQuery();
 
@@ -68,7 +68,22 @@ public class LogeeDAO {
             exa= e.getMessage();
             return 1;
         }
-    }    
+    } 
+    
+        public int logeo01(ClassLogin log) {
+            try {
+                if(this.con.conectarse(log)){
+                    return 0;
+                    
+                }else{
+                    return 2;
+                }
+                
+            } catch (Exception e) {
+                exa = e.getMessage();
+                return 1;
+            }
+    }
 
     public String getExa() {
         return exa;
@@ -77,5 +92,7 @@ public class LogeeDAO {
     public void setExa(String exa) {
         this.exa = exa;
     }
+
+
     
 }

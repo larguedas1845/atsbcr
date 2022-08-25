@@ -1,6 +1,6 @@
-
 package DAO;
 
+import clases.ClassLogin;
 import static java.lang.Class.forName;
 import java.sql.Connection;
 import static java.sql.DriverManager.getConnection;
@@ -9,28 +9,16 @@ import static java.util.logging.Level.SEVERE;
 import static java.util.logging.Logger.getLogger;
 
 public class conexion {
-    
+
     private Connection con;
 
     public conexion() {
         this.con = null;
+        ;
+
     }
-    
-    public boolean conectarse(){
-        try {
-            forName("com.mysql.cj.jdbc.Driver");
-            String servidor = "jdbc:mysql://localhost:3306/inventario?useSSL=false&serverTimezone=UTC";
-            String usuario = "root";
-            String password = "root";
-            this.con = (Connection) 
-                    getConnection(servidor, usuario, password);
-            return true;
-        } catch (ClassNotFoundException | SQLException ex) {
-            return false;
-        }
-    }
-    
-    public boolean desconectarse(){
+
+    public boolean desconectarse() {
         try {
             this.con.close();
             return true;
@@ -47,9 +35,16 @@ public class conexion {
     public void setCon(Connection con) {
         this.con = con;
     }
-    
-    
-    
-    
-    
+
+    boolean conectarse(ClassLogin log) {
+        try {
+            forName("com.mysql.cj.jdbc.Driver");
+            String servidor = "jdbc:mysql://192.168.100.69:3306/inventario?useSSL=false&serverTimezone=UTC";
+            this.con = (Connection) getConnection(servidor, log.getUser(), log.getPass());
+            return true;
+        } catch (ClassNotFoundException | SQLException ex) {
+            return false;
+        }
+    }
+
 }
